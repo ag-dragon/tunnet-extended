@@ -1,0 +1,7 @@
+[workspace]
+resolver = "2"
+
+members = [
+    "tunnet-extended-loader",
+    "tunnet-extended",
+]
