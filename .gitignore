@@ -1,4 +1,5 @@
 target/*
 tunnet.exe
 steam_api64.dll
+tunnet_extended.dll
 te_config.toml
