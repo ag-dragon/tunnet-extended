@@ -5,15 +5,23 @@ use ilhook::x64::{ Hooker, HookType, Registers, CallbackOption, HookFlags };
 use std::ptr::addr_of;
 use std::mem::forget;
 
+enum StringAddresses {
+    DrillPatch1 = 0x2478D70,
+    DrillPatch2 = 0x2478D71,
+    DrillDig = 0x2478D00,
+}
+
 // gets called when rendering label. Check if it is rendering certain text, then redirect pointer to our own string
 unsafe extern "win64" fn label_hook(reg: *mut Registers, base_address: usize) {
-    if (*reg).rdx == base_address as u64 + 0x2478D70 { // if "\nto patch"
+    use crate::hooks::StringAddresses::*;
+    
+    if (*reg).rdx == base_address as u64 + DrillPatch1 as u64 { // if "\nto patch"
         let address = (addr_of!(BUILD_TEXT) as *const u8) as u64;
         (*reg).rdx = address;
-    } else if (*reg).rdx == base_address as u64 + 0x2478D71 { // if "to patch"
+    } else if (*reg).rdx == base_address as u64 + DrillPatch2 as u64 { // if "to patch"
         let address = (addr_of!(BUILD_TEXT) as *const u8) as u64;
         (*reg).rdx = address + 0x01;
-    } else if (*reg).rdx == base_address as u64 + 0x2478D00 { // if "to dig"\
+    } else if (*reg).rdx == base_address as u64 + DrillDig as u64 { // if "to dig"\
         let address = (addr_of!(DIG_TEXT) as *const u8) as u64;
         (*reg).rdx = address;
     }
