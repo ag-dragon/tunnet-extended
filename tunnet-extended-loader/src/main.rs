@@ -34,9 +34,9 @@ use std::{thread, time};
 
 fn main() {
         
-    //thread::spawn(|| {
-        //let _ = Command::new("tunnet.exe").output().expect("failed to launch Tunnet");
-    //});
+    thread::spawn(|| {
+        let _ = Command::new("tunnet.exe").output().expect("failed to launch Tunnet");
+    });
     
     thread::sleep(time::Duration::from_millis(1000));
     
