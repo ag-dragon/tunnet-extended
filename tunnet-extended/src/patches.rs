@@ -31,22 +31,20 @@ impl PatchOffsets {
     const ALL_LIGHT: (u64, u64) = (0x292D33, 0x292D80);
 }
 
-/*
-#[cfg(not(Steam))]
+#[cfg(Itchio)]
 impl PatchOffsets {
-    const INFINITE_STAMINA: u64 = 0x6DB739;
+    const INFINITE_STAMINA: u64 = 0x6C30B9;
     
-    const BuildInRooms: u64 =  0x18097D;
+    const BUILD_IN_ROOMS: u64 =  0x44818D;
     
-    const DigRockFast: u64 = 0x355A5B;
+    const DIG_ROCK_FAST: u64 = 0x35570B;
     
-    const DrillAnything: (u64, u64) = (0x355A48, 0x2478D28);
+    const DRILL_ANYTHING: (u64, u64) = (0x3556F8, 0x2338ED8);
     
-    const DrillMaterial: (u64, u64) = (0x355A53, 0x2478D98);
+    const DRILL_MATERIAL: (u64, u64) = (0x355703, 0x2338F48);
     
-    const AllLight: (u64, u64) = (0x292D33, 0x292D80);
+    const ALL_LIGHT: (u64, u64) = (0x2F35F3, 0x2F3640);
 }
-*/
 
 pub fn enable_drill_anything(base_address: u64) {
     unsafe {
@@ -143,7 +141,7 @@ pub fn init_patches(base_address: u64) {
             let _ = WriteProcessMemory(process, (base_address + PatchOffsets::INFINITE_STAMINA) as *const c_void, buffer.as_ptr().cast(), 4, None);
         }
         if SETTINGS.read().unwrap().get::<bool>("patches.build_in_rooms").unwrap() {
-            let buffer: [u8; 5] = [0xe9, 0x1e, 0xfe, 0xff, 0xff];    // build in rooms
+            let buffer: [u8; 5] = [0x39, 0xC0, 0xEB, 0xF6, 0x90];    // build in rooms
             let _ = WriteProcessMemory(process, (base_address + PatchOffsets::BUILD_IN_ROOMS) as *const c_void, buffer.as_ptr().cast(), 5, None);
         }
         if SETTINGS.read().unwrap().get::<bool>("patches.dig_rock_fast").unwrap() {
