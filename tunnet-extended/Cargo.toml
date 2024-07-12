@@ -6,6 +6,9 @@ edition = "2021"
 [lib]
 crate-type = ["cdylib"]
 
+[lints.rust]
+unexpected_cfgs = { level = "allow", check-cfg = ['cfg(Steam)'] }
+
 [dependencies]
 config = { version = "0.14.0", features = ["toml"] }
 device_query = "2.1.0"
