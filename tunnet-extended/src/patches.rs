@@ -97,10 +97,10 @@ fn patch<T>(destination: u64, source: *const T, size: usize) {
         let mut old = Vec::with_capacity(20);
         let _ = VirtualProtect((destination) as *const c_void, size, PAGE_PROTECTION_FLAGS(0x40), old.as_mut_ptr() as *mut PAGE_PROTECTION_FLAGS);
 
-        let _ = WriteProcessMemory(process, (base_address + Patches::DRILL_ANYTHING_OFFSET.1) as *const c_void, replacement_length.as_ptr().cast(), size, None);
+        let _ = WriteProcessMemory(process, destination as *const c_void, source.cast(), size, None);
 
         let mut new = Vec::with_capacity(20);
-        let _ = VirtualProtect((destination) as *const c_void, size, old, new.as_mut_ptr() as *mut PAGE_PROTECTION_FLAGS);
+        let _ = VirtualProtect((destination) as *const c_void, size, old.pop().unwrap(), new.as_mut_ptr() as *mut PAGE_PROTECTION_FLAGS);
 
     }
     #[cfg(target_os = "linux")]
