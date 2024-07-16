@@ -5,6 +5,8 @@ mod patches;
 use settings::{ SETTINGS, str_to_key };
 
 use device_query::{ DeviceQuery, DeviceState, Keycode };
+
+#[cfg(target_os = "windows")]
 use windows::{
     core::*,
     Win32::Foundation::*,
@@ -14,7 +16,11 @@ use windows::{
     },
 };
 
+#[cfg(target_os = "linux")]
+use ctor::ctor;
+
 use std::thread;
+use std::ffi::c_void;
 
 static mut DIG_TEXT: [u8; 20] = [0x20, 0x74, 0x6f, 0x20, 0x64, 0x69, 0x67, 0x20, 0x28, 0x24, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00];
 const DIG_OPTIONS: [&str; 2] = [
@@ -43,7 +49,6 @@ const BUILDABLES: [&str; 17] = [
     "alt tiles ($\0",
     "corrupted metal wall ($\0",
 ];
-
 
 
 fn input_loop(base_address: u64) {
@@ -116,6 +121,7 @@ fn input_loop(base_address: u64) {
     }
 }
 
+#[cfg(target_os = "windows")]
 fn attach() {
     let base_address = unsafe {
         let module = GetModuleHandleA(PCSTR("tunnet.exe".as_ptr()));
@@ -133,9 +139,7 @@ fn attach() {
     });
 }
 
-fn detach() {
-}
-
+#[cfg(target_os = "windows")]
 #[no_mangle]
 #[allow(non_snake_case, unused_variables)]
 extern "system" fn DllMain(
@@ -146,9 +150,24 @@ extern "system" fn DllMain(
 {
     match call_reason {
         DLL_PROCESS_ATTACH => attach(),
-        DLL_PROCESS_DETACH => detach(),
         _ => ()
     }
     
     true
+}
+
+#[cfg(target_os = "linux")]
+#[ctor]
+fn entry_point() {
+    use procfs::process::Process;
+    let base_address = Process::new(std::process::id() as i32).unwrap().maps().unwrap().into_iter().nth(0).unwrap().address.0;
+
+    patches::set_drill_material(base_address, 3);
+    patches::init_patches(base_address);
+
+    hooks::hook(base_address);
+
+    thread::spawn(move || {
+        input_loop(base_address);
+    });
 }
