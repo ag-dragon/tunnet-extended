@@ -15,7 +15,6 @@ use windows::Win32::System::{
 
 #[cfg(target_os = "linux")]
 use procfs::process::Process;
-
 use std::ffi::c_void;
 
 struct Patches;
@@ -89,6 +88,29 @@ impl Patches {
     const ALL_LIGHT_UNDO: [u8; 2] = [0x74, 0x22];
 }
 
+#[cfg(target_os = "linux")]
+#[cfg(Steam)]
+impl Patches {
+    const INFINITE_STAMINA_PATCH: [u8; 5] = [0x90, 0x90, 0x90, 0x90, 0x90];
+    const INFINITE_STAMINA_OFFSET: u64 = 0x906445;
+    
+    const BUILD_IN_ROOMS_PATCH: [u8; 5] = [0xE9, 0x0E, 0xFE, 0xFF, 0xFF];
+    const BUILD_IN_ROOMS_OFFSET: u64 =  0x466E8D;
+    
+    const DIG_ROCK_FAST_PATCH: [u8; 5] = [0xba, 0x00, 0x00, 0x00, 0x00];
+    const DIG_ROCK_FAST_OFFSET: u64 = 0x668EC7;
+    
+    const DRILL_ANYTHING_PATCH: [u8; 2] = [0x90, 0x90];
+    const DRILL_ANYTHING_UNDO: [u8; 2] = [0x73, 0x2A];
+    const DRILL_ANYTHING_OFFSET: (u64, u64) = (0x668EB4, 0x4E45058);
+    
+    const DRILL_MATERIAL_OFFSET: (u64, u64) = (0x668EBF, 0x4E450B8);
+    
+    const ALL_LIGHT_PATCH: [u8; 2] = [0x90, 0x90];
+    const ALL_LIGHT_OFFSET: (u64, u64) = (0x554AB4, 0x554AEE);
+    const ALL_LIGHT_UNDO: [u8; 2] = [0x74, 0x22];
+}
+
 fn patch<T>(destination: u64, source: *const T, size: usize) {
     #[cfg(target_os = "windows")]
     unsafe {
@@ -151,7 +173,7 @@ pub fn set_drill_material(base_address: u64, material: u8) {
 
         let buildable = BUILDABLES.iter().nth(material as usize).unwrap();
         for (i, b) in buildable.bytes().enumerate() {
-            BUILD_TEXT[i+11] = b;
+            BUILD_TEXT[i+10] = b;
         }
 
         let replacement_length: u8 = 10 + buildable.len() as u8;

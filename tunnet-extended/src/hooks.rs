@@ -1,4 +1,5 @@
-use crate::{ DIG_TEXT, BUILD_TEXT };
+#[allow(unused_imports)]
+use crate::{ DIG_TEXT, BUILD_TEXT, NEW_LINE };
 
 use ilhook::x64::{ Hooker, HookType, Registers, CallbackOption, HookFlags };
 
@@ -31,12 +32,28 @@ impl StringOffsets {
     const DRILL_DIG: u64 = 0x1BD1595;
 }
 
+#[cfg(target_os = "linux")]
+#[cfg(Steam)]
+impl StringOffsets {
+    const LABEL_HOOK: u64 = 0x1C4C5B0;
+    const DRILL_PATCH: u64 = 0x1C9CA04;
+    const DRILL_DIG: u64 = 0x1C9C9FA;
+}
+
 // gets called when rendering label. Check if it is rendering certain text, then redirect pointer to our own string
 #[cfg(target_os = "linux")]
 unsafe extern "win64" fn label_hook(reg: *mut Registers, base_address: usize) {
     if (*reg).rsi == base_address as u64 + StringOffsets::DRILL_PATCH { // if "to patch"
-        let address = (addr_of!(BUILD_TEXT) as *const u8) as u64;
-        (*reg).rsi = address;
+        #[cfg(not(Itchio))]
+        {
+            let address = (addr_of!(BUILD_TEXT) as *const u8) as u64;
+            (*reg).rsi = address;
+        }
+        #[cfg(Itchio)]
+        {
+            let address = (addr_of!(NEW_LINE) as *const u8) as u64;
+            (*reg).rsi = address;
+        }
     } else if (*reg).rsi == base_address as u64 + StringOffsets::DRILL_PATCH + 0x1 {
         let address = (addr_of!(BUILD_TEXT) as *const u8) as u64;
         (*reg).rsi = address + 0x1;
