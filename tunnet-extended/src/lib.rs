@@ -131,7 +131,8 @@ fn attach() {
         module.unwrap().0 as u64
     };
     
-    patches::set_drill_material(base_address, 3);
+    patches::set_drill_material(base_address, 3); // idk why but the first time this gets called the string length doesnt get set properly
+    patches::set_drill_material(base_address, 3); // so I just call it twice at first (after this it works fine)
     patches::init_patches(base_address);
     
     hooks::hook(base_address);

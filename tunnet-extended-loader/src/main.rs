@@ -9,8 +9,9 @@ use std::os::windows::io::AsRawHandle;
 
 #[cfg(target_os = "linux")]
 use ptrace_inject::{Injector, Process};
-
+#[cfg(target_os = "linux")]
 use std::path::PathBuf;
+
 use std::process::Command;
 use std::{thread, time};
 

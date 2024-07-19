@@ -116,13 +116,13 @@ fn patch<T>(destination: u64, source: *const T, size: usize) {
     unsafe {
         let process = GetCurrentProcess();
 
-        let mut old = Vec::with_capacity(20);
-        let _ = VirtualProtect((destination) as *const c_void, size, PAGE_PROTECTION_FLAGS(0x40), old.as_mut_ptr() as *mut PAGE_PROTECTION_FLAGS);
+        let old: u32 = 0x40;
+        let _ = VirtualProtect((destination) as *const c_void, size, PAGE_PROTECTION_FLAGS(0x40), old as *mut PAGE_PROTECTION_FLAGS);
 
         let _ = WriteProcessMemory(process, destination as *const c_void, source.cast(), size, None);
 
         let mut new = Vec::with_capacity(20);
-        let _ = VirtualProtect((destination) as *const c_void, size, old.pop().unwrap(), new.as_mut_ptr() as *mut PAGE_PROTECTION_FLAGS);
+        let _ = VirtualProtect((destination) as *const c_void, size, PAGE_PROTECTION_FLAGS(old), new.as_mut_ptr() as *mut PAGE_PROTECTION_FLAGS);
 
     }
     #[cfg(target_os = "linux")]
