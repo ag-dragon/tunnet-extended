@@ -45,7 +45,7 @@ fn get_game_process() -> OwnedProcess {
 fn main() {
     #[cfg(target_os = "windows")]
     thread::spawn(|| {
-        let _ = Command::new("tunnet.exe").output().expect("failed to launch Tunnet");
+        let _ = Command::new("tunnet.exe").arg("--bypass-launcher").output().expect("failed to launch Tunnet");
     });
 
     #[cfg(target_os = "linux")]
