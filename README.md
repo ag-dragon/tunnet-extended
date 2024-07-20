@@ -15,6 +15,8 @@ Features:
 
 Here is a video I made briefly showcasing building with TE: https://youtu.be/yLXGrKHqlK8
 
+If you need to reach me, join the unofficial Tunnet [discord](https://discord.gg/BJ6CesdCrV). My username is agdragon.
+
 # Installing
 Download one of the releases depending on which os and version of the game you are using.
 Export everything in the zip into the directory that contains the game executable.
