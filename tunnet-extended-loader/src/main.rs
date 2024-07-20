@@ -66,7 +66,7 @@ fn main() {
 
     #[cfg(target_os = "linux")]
     {
-        let library = PathBuf::from("target/debug/libtunnet_extended.so");
+        let library = PathBuf::from("libtunnet_extended.so");
         let proc = Process::by_name("tunnet").unwrap().unwrap();
         let _ = Injector::attach(proc).unwrap().inject(&library);
     }
