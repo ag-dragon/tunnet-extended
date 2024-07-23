@@ -23,22 +23,22 @@ struct Patches;
 #[cfg(Steam)]
 impl Patches {
     const INFINITE_STAMINA_PATCH: [u8; 4] = [0x90, 0x90, 0x90, 0x90];
-    const INFINITE_STAMINA_OFFSET: u64 = 0x6DB739;
+    const INFINITE_STAMINA_OFFSET: u64 = 0x6D042C;
     
     const BUILD_IN_ROOMS_PATCH: [u8; 5] = [0x39, 0xC0, 0xEB, 0xF6, 0x90];
-    const BUILD_IN_ROOMS_OFFSET: u64 =  0x18097D;
+    const BUILD_IN_ROOMS_OFFSET: u64 =  0x16FD1D;
     
     const DIG_ROCK_FAST_PATCH: [u8; 5] = [0xba, 0x00, 0x00, 0x00, 0x00];
-    const DIG_ROCK_FAST_OFFSET: u64 = 0x355A5B;
+    const DIG_ROCK_FAST_OFFSET: u64 = 0x3483BB;
     
     const DRILL_ANYTHING_PATCH: [u8; 2] = [0x90, 0x90];
     const DRILL_ANYTHING_UNDO: [u8; 2] = [0x73, 0x26];
-    const DRILL_ANYTHING_OFFSET: (u64, u64) = (0x355A48, 0x2478D28);
+    const DRILL_ANYTHING_OFFSET: (u64, u64) = (0x3483A8, 0x246E348);
     
-    const DRILL_MATERIAL_OFFSET: (u64, u64) = (0x355A53, 0x2478D98);
+    const DRILL_MATERIAL_OFFSET: (u64, u64) = (0x3483B3, 0x246E3B8);
     
     const ALL_LIGHT_PATCH: [u8; 2] = [0x90, 0x90];
-    const ALL_LIGHT_OFFSET: (u64, u64) = (0x292D33, 0x292D80);
+    const ALL_LIGHT_OFFSET: (u64, u64) = (0x2A8AE3, 0x2A8B30);
     const ALL_LIGHT_UNDO: [u8; 2] = [0x74, 0x29];
 }
 
@@ -173,10 +173,10 @@ pub fn set_drill_material(base_address: u64, material: u8) {
 
         let buildable = BUILDABLES.iter().nth(material as usize).unwrap();
         for (i, b) in buildable.bytes().enumerate() {
-            BUILD_TEXT[i+10] = b;
+            BUILD_TEXT[i+11] = b;
         }
 
-        let replacement_length: u8 = 10 + buildable.len() as u8;
+        let replacement_length: u8 = 11 + buildable.len() as u8;
         patch(base_address+Patches::DRILL_MATERIAL_OFFSET.1, &replacement_length, 1);
     };
 }

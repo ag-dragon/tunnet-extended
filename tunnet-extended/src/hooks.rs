@@ -11,9 +11,9 @@ struct StringOffsets;
 #[cfg(target_os = "windows")]
 #[cfg(Steam)]
 impl StringOffsets {
-    const LABEL_HOOK: u64 = 0x23A9F9E; // annoying to port, have to manually check with cheat engine rather than just searching byte pattern
-    const DRILL_PATCH: u64 = 0x2478D71;
-    const DRILL_DIG: u64 = 0x2478D00;
+    const LABEL_HOOK: u64 = 0x239ED5E; // annoying to port, have to manually check with cheat engine rather than just searching byte pattern
+    const DRILL_PATCH: u64 = 0x246E390;
+    const DRILL_DIG: u64 = 0x246E320;
 }
 
 #[cfg(target_os = "windows")]
