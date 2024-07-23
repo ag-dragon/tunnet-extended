@@ -27,9 +27,9 @@ impl StringOffsets {
 #[cfg(target_os = "linux")]
 #[cfg(Itchio)]
 impl StringOffsets {
-    const LABEL_HOOK: u64 = 0x1B811B0;
-    const DRILL_PATCH: u64 = 0x1BD159F;
-    const DRILL_DIG: u64 = 0x1BD1595;
+    const LABEL_HOOK: u64 = 0x1B82670;
+    const DRILL_PATCH: u64 = 0x1BD26F9;
+    const DRILL_DIG: u64 = 0x1BD26EF;
 }
 
 #[cfg(target_os = "linux")]
