@@ -176,7 +176,7 @@ pub fn set_drill_material(base_address: u64, material: u8) {
             BUILD_TEXT[i+11] = b;
         }
 
-        let replacement_length: u8 = 11 + buildable.len() as u8;
+        let replacement_length: u8 = 10 + buildable.len() as u8;
         patch(base_address+Patches::DRILL_MATERIAL_OFFSET.1, &replacement_length, 1);
     };
 }

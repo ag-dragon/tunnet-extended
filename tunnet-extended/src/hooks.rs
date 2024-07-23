@@ -1,5 +1,5 @@
 #[allow(unused_imports)]
-use crate::{ DIG_TEXT, BUILD_TEXT, NEW_LINE };
+use crate::{ DIG_TEXT, BUILD_TEXT, NEW_LINE, TEST_STRING };
 
 use ilhook::x64::{ Hooker, HookType, Registers, CallbackOption, HookFlags };
 
@@ -65,10 +65,7 @@ unsafe extern "win64" fn label_hook(reg: *mut Registers, base_address: usize) {
 
 #[cfg(target_os = "windows")]
 unsafe extern "win64" fn label_hook(reg: *mut Registers, base_address: usize) {
-    if (*reg).rdx == base_address as u64 + StringOffsets::DRILL_PATCH { // if "to patch"
-        let address = (addr_of!(BUILD_TEXT) as *const u8) as u64;
-        (*reg).rdx = address;
-    } else if (*reg).rdx == base_address as u64 + StringOffsets::DRILL_PATCH + 0x1 {
+    if (*reg).rdx == base_address as u64 + StringOffsets::DRILL_PATCH + 0x1 {
         let address = (addr_of!(BUILD_TEXT) as *const u8) as u64;
         (*reg).rdx = address + 0x1;
     } else if (*reg).rdx == base_address as u64 + StringOffsets::DRILL_DIG { // if "to dig"\
