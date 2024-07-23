@@ -35,9 +35,9 @@ impl StringOffsets {
 #[cfg(target_os = "linux")]
 #[cfg(Steam)]
 impl StringOffsets {
-    const LABEL_HOOK: u64 = 0x1C4C5B0;
-    const DRILL_PATCH: u64 = 0x1C9CA04;
-    const DRILL_DIG: u64 = 0x1C9C9FA;
+    const LABEL_HOOK: u64 = 0x1C3D870;
+    const DRILL_PATCH: u64 = 0x1C8DC41;
+    const DRILL_DIG: u64 = 0x1C8DC37;
 }
 
 // gets called when rendering label. Check if it is rendering certain text, then redirect pointer to our own string
