@@ -19,9 +19,9 @@ impl StringOffsets {
 #[cfg(target_os = "windows")]
 #[cfg(Itchio)]
 impl StringOffsets {
-    const LABEL_HOOK: u64 = 0x229F6AE;
-    const DRILL_PATCH: u64 = 0x2338F20;
-    const DRILL_DIG: u64 = 0x2338EB0;
+    const LABEL_HOOK: u64 = 0x228996E;
+    const DRILL_PATCH: u64 = 0x2322D90;
+    const DRILL_DIG: u64 = 0x2322D20; // 0x2328F20
 }
 
 #[cfg(target_os = "linux")]
@@ -44,16 +44,8 @@ impl StringOffsets {
 #[cfg(target_os = "linux")]
 unsafe extern "win64" fn label_hook(reg: *mut Registers, base_address: usize) {
     if (*reg).rsi == base_address as u64 + StringOffsets::DRILL_PATCH { // if "to patch"
-        #[cfg(not(Itchio))]
-        {
-            let address = (addr_of!(BUILD_TEXT) as *const u8) as u64;
-            (*reg).rsi = address;
-        }
-        #[cfg(Itchio)]
-        {
-            let address = (addr_of!(NEW_LINE) as *const u8) as u64;
-            (*reg).rsi = address;
-        }
+        let address = (addr_of!(BUILD_TEXT) as *const u8) as u64;
+        (*reg).rsi = address;
     } else if (*reg).rsi == base_address as u64 + StringOffsets::DRILL_PATCH + 0x1 {
         let address = (addr_of!(BUILD_TEXT) as *const u8) as u64;
         (*reg).rsi = address + 0x1;

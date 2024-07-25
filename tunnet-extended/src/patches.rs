@@ -46,22 +46,22 @@ impl Patches {
 #[cfg(Itchio)]
 impl Patches {
     const INFINITE_STAMINA_PATCH: [u8; 4] = [0x90, 0x90, 0x90, 0x90];
-    const INFINITE_STAMINA_OFFSET: u64 = 0x6C30B9;
+    const INFINITE_STAMINA_OFFSET: u64 = 0x6AC869;
     
     const BUILD_IN_ROOMS_PATCH: [u8; 5] = [0x39, 0xC0, 0xEB, 0xF6, 0x90];
-    const BUILD_IN_ROOMS_OFFSET: u64 =  0x44818D;
+    const BUILD_IN_ROOMS_OFFSET: u64 =  0x43078D;
     
     const DIG_ROCK_FAST_PATCH: [u8; 5] = [0xba, 0x00, 0x00, 0x00, 0x00];
-    const DIG_ROCK_FAST_OFFSET: u64 = 0x35570B;
+    const DIG_ROCK_FAST_OFFSET: u64 = 0x35B2EB;
     
     const DRILL_ANYTHING_PATCH: [u8; 2] = [0x90, 0x90];
     const DRILL_ANYTHING_UNDO: [u8; 2] = [0x73, 0x26];
-    const DRILL_ANYTHING_OFFSET: (u64, u64) = (0x3556F8, 0x2338ED8);
+    const DRILL_ANYTHING_OFFSET: (u64, u64) = (0x35B2D8, 0x2322D48);
     
-    const DRILL_MATERIAL_OFFSET: (u64, u64) = (0x355703, 0x2338F48);
+    const DRILL_MATERIAL_OFFSET: (u64, u64) = (0x35B2E3, 0x2322DB8);
     
     const ALL_LIGHT_PATCH: [u8; 2] = [0x90, 0x90];
-    const ALL_LIGHT_OFFSET: (u64, u64) = (0x2F35F3, 0x2F3640);
+    const ALL_LIGHT_OFFSET: (u64, u64) = (0x2D64D3, 0x2D6520);
     const ALL_LIGHT_UNDO: [u8; 2] = [0x74, 0x29];
 }
 
